@@ -7,7 +7,7 @@ use Test::More;
 
 use TechnicalPrompt qw(findPair);
 
-plan tests => 9;
+plan tests => 11;
 
 is_deeply(
     findPair([1,2,3,4], 5) => [1,4],
@@ -22,6 +22,16 @@ is_deeply(
 is_deeply(
     findPair([3,3,5,6,7], 11) => undef,
     'findPair([3,3,5,6,7], 11) returns null'
+);
+
+is_deeply(
+    findPair([3,5,6,7,3], 11) => undef,
+    'findPair([3,5,6,7,3], 11) returns null (ensuring that Quicksort algorithm catches the duplicate 3 that is elsewhere)'
+);
+
+is_deeply(
+    findPair([3,5,3,6,7], 11) => undef,
+    'findPair([3,5,3,6,7], 11) returns null (ensuring that Quicksort algorithm catches the duplicate 3 that is elsewhere)'
 );
 
 is_deeply(
