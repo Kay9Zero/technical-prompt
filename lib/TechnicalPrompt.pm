@@ -28,10 +28,13 @@ sub findPair {
 
     return undef unless defined $integers;
 
-    # TODO Iterate over the sorted list, have an inner loop over the remaining
-    #      siblings where it sums the pairs until the desired sum is matched
+    while (my $element = shift @$integers) {
+        foreach my $sibling (@$integers) {
+            return [$element, $sibling] if ($element + $sibling) == $desired_sum;
+        }
+    }
 
-    return [0, 0];
+    return undef;
 }
 
 1;
