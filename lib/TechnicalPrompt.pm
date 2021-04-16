@@ -12,7 +12,6 @@ sub findPair {
     my ($integers, $desired_sum) = @_;
 
     $integers = try {
-        my $i = 0;
         [
             sort {
                 die "Invalid element\n" unless looks_like_number($a) && $a > 0 && $a != $b;
