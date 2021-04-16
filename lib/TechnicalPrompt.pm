@@ -11,8 +11,18 @@ use Try::Tiny;
 sub findPair {
     my ($integers, $desired_sum) = @_;
 
-    $integers = try {
-        [
+    $integers = _validate_and_sort($integers) or return undef;
+
+    return _iterate_siblings($integers, $desired_sum);
+}
+
+
+# Caution: Uncle Bob advocates having functions do one thing as a best practice, this violates that principle...
+sub _validate_and_sort {
+    my $integers = shift;
+
+    try {
+        return [
             sort {
                 die "Invalid element\n" unless looks_like_number($a) && $a > 0 && $a != $b;
                 $a <=> $b
@@ -20,12 +30,14 @@ sub findPair {
         ];
     }
     catch {
-        my $err = $_;
-        return undef if $err eq "Invalid element\n";
-        die $err;
+        die $_ unless $_ eq "Invalid element\n";
+        return undef
     };
+}
 
-    return undef unless defined $integers;
+# FIXME: Perhaps a better name which self-describes intent?
+sub _iterate_siblings {
+    my ($integers, $desired_sum) = @_;
 
     while (my $element = shift @$integers) {
         foreach my $sibling (@$integers) {
@@ -33,7 +45,7 @@ sub findPair {
         }
     }
 
-    return undef;
+    return undef
 }
 
 1;
